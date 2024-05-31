@@ -10,21 +10,23 @@
 
 <div align="center">
 
-# **Bittensor SN1** <!-- omit in toc -->
-[![Discord Chat](https://img.shields.io/discord/308323056592486420.svg)](https://discord.gg/bittensor)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+# **Cybertensor SN1** <!-- omit in toc -->
+
+<p>
+    <img alt="GitHub" src="https://img.shields.io/github/license/Snedashkovsky/promting">
+    <img alt="Python" src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue">
+</p>
 
 ---
 
 ### The Incentivized Internet <!-- omit in toc -->
 
-[Discord](https://discord.gg/bittensor) • [Network](https://taostats.io/) • [Research](https://bittensor.com/whitepaper)
 
 </div>
 
 ---
 
-This repository is the **official codebase for Bittensor Subnet 1 (SN1) v1.0.0+, which was released on 22nd January 2024**. To learn more about the Bittensor project and the underlying mechanics, [read here.](https://docs.bittensor.com/).
+This repository is the **official codebase for Cybertensor Subnet 1 (SN1) v1.0.0+, which was released on 22nd January 2024**. To learn more about the Cybertensor project and the underlying mechanics, [read here](https://docs.spacepussy.ai/).
 
 # Introduction
 
@@ -58,10 +60,10 @@ You can use the following command to run a miner or a validator.
 ```bash
 python <SCRIPT_PATH>
     --netuid 1
-    --subtensor.network <finney/local/test>
+    --cwtensor.network <finney/local/test>
     --neuron.device cuda
-    --wallet.name <your wallet> # Must be created using the bittensor-cli
-    --wallet.hotkey <your hotkey> # Must be created using the bittensor-cli
+    --wallet.name <your wallet> # Must be created using the cybertensor-cli
+    --wallet.hotkey <your hotkey> # Must be created using the cybertensor-cli
     --logging.debug # Run in debug mode, alternatively --logging.trace for trace mode
     --axon.port # VERY IMPORTANT: set the port to be one of the open TCP ports on your machine
 ```
@@ -79,7 +81,7 @@ sudo apt update && sudo apt install jq && sudo apt install npm && sudo npm insta
 
 Example of running a SOLAR miner: 
 ```bash
-pm2 start neurons/miners/huggingface/miner.py --interpreter python3 --name solar_miner -- --netuid 1  --subtensor.network finney --wallet.name my_wallet --wallet.hotkey m1 --neuron.model_id casperhansen/llama-3-70b-instruct-awq --axon.port 21988 --logging.debug 
+pm2 start neurons/miners/huggingface/miner.py --interpreter python3 --name solar_miner -- --netuid 1  --cwtensor.network finney --wallet.name my_wallet --wallet.hotkey m1 --neuron.model_id casperhansen/llama-3-70b-instruct-awq --axon.port 21988 --logging.debug 
 ``` 
 
 # Testnet 
@@ -90,7 +92,7 @@ In order to run on testnet, you will need to go through the same hotkey registra
 To run:
 
 ```bash
-pm2 start neurons/miners/huggingface/miner.py --interpreter python3 --name solar_miner -- --netuid 61  --subtensor.network test --wallet.name my_test_wallet --wallet.hotkey m1 --neuron.model_id casperhansen/llama-3-70b-instruct-awq --axon.port 21988 --logging.debug 
+pm2 start neurons/miners/huggingface/miner.py --interpreter python3 --name solar_miner -- --netuid 61  --cwtensor.network test --wallet.name my_test_wallet --wallet.hotkey m1 --neuron.model_id casperhansen/llama-3-70b-instruct-awq --axon.port 21988 --logging.debug 
 ```
 
 # Limitations

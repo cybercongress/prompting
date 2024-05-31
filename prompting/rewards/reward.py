@@ -1,6 +1,6 @@
 import torch
 import time
-import bittensor as bt
+import cybertensor as ct
 from typing import List
 from abc import ABC, abstractmethod
 from dataclasses import dataclass

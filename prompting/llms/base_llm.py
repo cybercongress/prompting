@@ -1,4 +1,4 @@
-import bittensor as bt
+import cybertensor as ct
 from abc import ABC, abstractmethod
 from prompting.cleaners.cleaner import CleanerPipeline
 from typing import Any, Dict, List
@@ -39,7 +39,7 @@ class BaseLLM(ABC):
         if cleaner is not None:
             clean_response = cleaner.apply(generation=response)
             if clean_response != response:
-                bt.logging.debug(
+                ct.logging.debug(
                     f"Response cleaned, chars removed: {len(response) - len(clean_response)}..."
                 )
 

@@ -22,7 +22,7 @@ import random
 import asyncio
 import traceback
 import numpy as np
-import bittensor as bt
+import cybertensor as ct
 from typing import List, Dict, Awaitable
 from prompting.agent import HumanAgent
 from prompting.dendrite import DendriteResponseEvent
@@ -58,7 +58,7 @@ async def process_response(uid: int, async_generator: Awaitable):
     try:
         chunk = None  # Initialize chunk with a default value
         async for chunk in async_generator:  # most important loop, as this is where we acquire the final synapse.
-            bt.logging.debug(f"\nchunk for uid {uid}: {chunk}")
+            ct.logging.debug(f"\nchunk for uid {uid}: {chunk}")
 
         if chunk is not None:
             synapse = chunk  # last object yielded is the synapse itself with completion filled
@@ -67,13 +67,13 @@ async def process_response(uid: int, async_generator: Awaitable):
             if isinstance(synapse, StreamPromptingSynapse):
                 return synapse
 
-        bt.logging.debug(
+        ct.logging.debug(
             f"Synapse is not StreamPromptingSynapse. Miner uid {uid} completion set to '' "
         )
     except Exception as e:
-        # bt.logging.error(f"Error in generating reference or handling responses: {e}", exc_info=True)
+        # ct.logging.error(f"Error in generating reference or handling responses: {e}", exc_info=True)
         traceback_details = traceback.format_exc()
-        bt.logging.error(
+        ct.logging.error(
             f"Error in generating reference or handling responses for uid {uid}: {e}\n{traceback_details}"
         )
 
@@ -125,7 +125,7 @@ async def handle_response(responses: Dict[int, Awaitable]) -> List[StreamResult]
 
         # If the result is neither an error or a StreamSynapse, log the error and raise a ValueError
         else:
-            bt.logging.error(f"Unexpected result type for UID {uid}: {result}")
+            ct.logging.error(f"Unexpected result type for UID {uid}: {result}")
             raise ValueError(f"Unexpected result type for UID {uid}: {result}")
 
     return mapped_results
@@ -155,15 +155,15 @@ def log_stream_results(stream_results: List[StreamResult]):
         if response.exception is None and response.synapse.completion != ""
     ]
 
-    bt.logging.info(f"Total of non_empty responses: ({len(non_empty_responses)})")
-    bt.logging.info(f"Total of empty responses: ({len(empty_responses)})")
-    bt.logging.info(
+    ct.logging.info(f"Total of non_empty responses: ({len(non_empty_responses)})")
+    ct.logging.info(f"Total of empty responses: ({len(empty_responses)})")
+    ct.logging.info(
         f"Total of failed responses: ({len(failed_responses)}):\n {failed_responses}"
     )
 
     for failed_response in failed_responses:
         formatted_exception = serialize_exception_to_string(failed_response.exception)
-        bt.logging.error(
+        ct.logging.error(
             f"Failed response for uid {failed_response.uid}: {formatted_exception}"
         )
 
@@ -187,7 +187,7 @@ async def run_step(
         exclude (list, optional): The list of uids to exclude from the query. Defaults to [].
     """
 
-    bt.logging.debug("run_step", agent.task.name)
+    ct.logging.debug("run_step", agent.task.name)
 
     # Record event start time.
     start_time = time.time()
@@ -228,7 +228,7 @@ async def run_step(
         responses=all_synapses_results, uids=uids, timeout=timeout
     )
 
-    bt.logging.info(f"Created DendriteResponseEvent:\n {response_event}")
+    ct.logging.info(f"Created DendriteResponseEvent:\n {response_event}")
     # Reward the responses and get the reward result (dataclass)
     # This contains a list of RewardEvents but can be exported as a dict (column-wise) for logging etc
     reward_result = RewardResult(
@@ -237,7 +237,7 @@ async def run_step(
         response_event=response_event,
         device=self.device,
     )
-    bt.logging.info(f"Created RewardResult:\n {reward_result}")
+    ct.logging.info(f"Created RewardResult:\n {reward_result}")
 
     best_response = response_event.completions[reward_result.rewards.argmax()]
 
@@ -275,18 +275,18 @@ async def forward(self):
     Encapsulates a full conversation between the validator and miners. Contains one or more rounds of request-response.
 
     """
-    bt.logging.info("🚀 Starting forward loop...")
+    ct.logging.info("🚀 Starting forward loop...")
     forward_start_time = time.time()
 
     while True:
-        bt.logging.info(
+        ct.logging.info(
             f"📋 Selecting task... from {self.config.neuron.tasks} with distribution {self.config.neuron.task_p}"
         )
         # Create a specific task
         task_name = np.random.choice(
             self.config.neuron.tasks, p=self.config.neuron.task_p
         )
-        bt.logging.info(f"📋 Creating {task_name} task... ")
+        ct.logging.info(f"📋 Creating {task_name} task... ")
         try:
             task = create_task(
                 llm_pipeline=self.llm_pipeline,
@@ -296,13 +296,13 @@ async def forward(self):
             )
             break
         except Exception as e:
-            bt.logging.error(
+            ct.logging.error(
                 f"Failed to create {task_name} task. {sys.exc_info()}. Skipping to next task."
             )
             continue
 
     # Create random agent with task, topic, profile...
-    bt.logging.info(f"🤖 Creating agent for {task_name} task... ")
+    ct.logging.info(f"🤖 Creating agent for {task_name} task... ")
     agent = HumanAgent(
         task=task, llm_pipeline=self.llm_pipeline, begin_conversation=True
     )
@@ -356,7 +356,7 @@ async def forward(self):
 
         except BaseException as e:
             unexpected_errors = serialize_exception_to_string(e)
-            bt.logging.error(
+            ct.logging.error(
                 f"Error in run_step: Skipping to next round. \n {unexpected_errors}"
             )
 

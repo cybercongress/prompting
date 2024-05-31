@@ -1,10 +1,10 @@
-# Bittensor Subnet Development Workflow
+# Cybertensor Subnet Development Workflow
 
 This is a highly advisable workflow to follow to keep your subtensor project organized and foster ease of contribution.
 
 ## Table of contents
 
-- [Bittensor Subnet Development Workflow](#bittensor-subnet-development-workflow)
+- [Cybertensor Subnet Development Workflow](#cybertensor-subnet-development-workflow)
   - [Main Branches](#main-branches)
   - [Development Model](#development-model)
       - [Feature Branches](#feature-branches)
@@ -23,13 +23,13 @@ This is a highly advisable workflow to follow to keep your subtensor project org
 
 ## Main Branches
 
-Bittensor's codebase consists of two main branches: **main** and **staging**.
+Cybertensor's codebase consists of two main branches: **main** and **staging**.
 
 **main**
-- This is Bittensor's live production branch, which should only be updated by the core development team. This branch is protected, so refrain from pushing or merging into it unless authorized.
+- This is Cybertensor's live production branch, which should only be updated by the core development team. This branch is protected, so refrain from pushing or merging into it unless authorized.
 
 **staging**
-- This branch is continuously updated and is where you propose and merge changes. It's essentially Bittensor's active development branch.
+- This branch is continuously updated and is where you propose and merge changes. It's essentially Cybertensor's active development branch.
 
 ## Development Model
 
@@ -92,7 +92,7 @@ So, what you have to keep in mind is:
 
 #### Finishing a Release Branch
 
-This involves releasing stable code and generating a new version for bittensor.
+This involves releasing stable code and generating a new version for Cybertensor.
 
 1. Switch branch to main: `git checkout main`
 2. Merge release branch into main: `git merge --no-ff release/3.4.0/optional-descriptive-message`
@@ -139,7 +139,7 @@ Continuous Integration (CI) is a software development practice where members of 
 
 Continuous Deployment (CD) is a software engineering approach in which software functionalities are delivered frequently through automated deployments.
 
-- **CircleCI job**: Create jobs in CircleCI to automate the merging of staging into main and release version (needed to release code) and building and testing Bittensor (needed to merge PRs).
+- **CircleCI job**: Create jobs in CircleCI to automate the merging of staging into main and release version (needed to release code) and building and testing Cybertensor (needed to merge PRs).
 
 > It is highly recommended to set up your own circleci pipeline with your subnet
 
@@ -151,7 +151,7 @@ Release notes provide documentation for each version released to the users, high
 
 ## Pending Tasks
 
-Follow these steps when you are contributing to the bittensor subnet:
+Follow these steps when you are contributing to the cybertensor subnet:
 
 - Determine if main and staging are different
 - Determine what is in staging that is not merged yet
@@ -160,6 +160,6 @@ Follow these steps when you are contributing to the bittensor subnet:
     - When merged into main, generate GitHub release and release notes.
 - CircleCI jobs 
     - Merge staging into main and release version (needed to release code)
-    - Build and Test Bittensor (needed to merge PRs)
+    - Build and Test Cybertensor (needed to merge PRs)
 
-This document can be improved as the Bittensor project continues to develop and change.
+This document can be improved as the Cybertensor project continues to develop and change.

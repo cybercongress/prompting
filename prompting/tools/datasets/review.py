@@ -1,7 +1,7 @@
 import random
 import functools
 
-import bittensor as bt
+import cybertensor as ct
 from typing import Dict, Union, List, Tuple
 from .base import TemplateDataset
 

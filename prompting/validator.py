@@ -1,4 +1,4 @@
-import bittensor as bt
+import cybertensor as ct
 from prompting.forward import forward
 from prompting.llms import vLLMPipeline
 from prompting.base.validator import BaseValidatorNeuron
@@ -14,7 +14,7 @@ class Validator(BaseValidatorNeuron):
     def __init__(self, config=None):
         super(Validator, self).__init__(config=config)
 
-        bt.logging.info("load_state()")
+        ct.logging.info("load_state()")
         self.load_state()
 
         self.llm_pipeline = vLLMPipeline(
@@ -53,7 +53,7 @@ class Validator(BaseValidatorNeuron):
 
     def __enter__(self):
         if self.config.no_background_thread:
-            bt.logging.warning("Running validator in main thread.")
+            ct.logging.warning("Running validator in main thread.")
             self.run()
         else:
             self.run_in_background_thread()
@@ -74,8 +74,8 @@ class Validator(BaseValidatorNeuron):
                        None if the context was exited without an exception.
         """
         if self.is_running:
-            bt.logging.debug("Stopping validator in background thread.")
+            ct.logging.debug("Stopping validator in background thread.")
             self.should_exit = True
             self.thread.join(5)
             self.is_running = False
-            bt.logging.debug("Stopped")
+            ct.logging.debug("Stopped")

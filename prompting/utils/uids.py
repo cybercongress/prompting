@@ -1,11 +1,11 @@
 import torch
 import random
-import bittensor as bt
+import cybertensor as ct
 from typing import List
 
 
 def check_uid_availability(
-    metagraph: "bt.metagraph.Metagraph",
+    metagraph: "ct.metagraph.Metagraph",
     uid: int,
     vpermit_tao_limit: int,
     coldkeys: set = None,
@@ -13,7 +13,7 @@ def check_uid_availability(
 ) -> bool:
     """Check if uid is available. The UID should be available if it is serving and has less than vpermit_tao_limit stake
     Args:
-        metagraph (:obj: bt.metagraph.Metagraph): Metagraph object
+        metagraph (:obj: ct.metagraph.Metagraph): Metagraph object
         uid (int): uid to be checked
         vpermit_tao_limit (int): Validator permit tao limit
         coldkeys (set): Set of coldkeys to exclude
@@ -23,12 +23,12 @@ def check_uid_availability(
     """
     # Filter non serving axons.
     if not metagraph.axons[uid].is_serving:
-        bt.logging.debug(f"uid: {uid} is not serving")
+        ct.logging.debug(f"uid: {uid} is not serving")
         return False
 
     # Filter validator permit > 1024 stake.
     if metagraph.validator_permit[uid] and metagraph.S[uid] > vpermit_tao_limit:
-        bt.logging.debug(
+        ct.logging.debug(
             f"uid: {uid} has vpermit and stake ({metagraph.S[uid]}) > {vpermit_tao_limit}"
         )
         return False
@@ -81,7 +81,7 @@ def get_random_uids(self, k: int, exclude: List[int] = None) -> torch.LongTensor
 
     # Check if candidate_uids contain enough for querying, if not grab all avaliable uids
     if 0 < len(candidate_uids) < k:
-        bt.logging.warning(
+        ct.logging.warning(
             f"Requested {k} uids but only {len(candidate_uids)} were available. To disable this warning reduce the sample size (--neuron.sample_size)"
         )
         return torch.tensor(candidate_uids)

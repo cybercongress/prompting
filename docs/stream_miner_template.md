@@ -31,13 +31,13 @@ def forward(self, synapse: StreamPromptingSynapse) -> Awaitable:
                 buffer.append(token)
 
                 if time.time() - init_time > timeout_threshold:
-                    bt.logging.debug(f"⏰ Timeout reached, stopping streaming")
+                    ct.logging.debug(f"⏰ Timeout reached, stopping streaming")
                     timeout_reached = True
                     break
 
                 if len(buffer) == self.config.neuron.streaming_batch_size:
                     joined_buffer = "".join(buffer)
-                    bt.logging.debug(f"Streamed tokens: {joined_buffer}")
+                    ct.logging.debug(f"Streamed tokens: {joined_buffer}")
 
                     await send(
                         {
@@ -53,7 +53,7 @@ def forward(self, synapse: StreamPromptingSynapse) -> Awaitable:
             ):  # Don't send the last buffer of data if timeout.
                 joined_buffer = "".join(buffer)
                 temp_completion += joined_buffer
-                bt.logging.debug(f"Streamed tokens: {joined_buffer}")
+                ct.logging.debug(f"Streamed tokens: {joined_buffer}")
 
                 await send(
                     {
@@ -64,7 +64,7 @@ def forward(self, synapse: StreamPromptingSynapse) -> Awaitable:
                 )
 
         except Exception as e:
-            bt.logging.error(f"Error in forward: {e}")
+            ct.logging.error(f"Error in forward: {e}")
             if self.config.neuron.stop_on_forward_exception:
                 self.should_exit = True
 
@@ -84,5 +84,5 @@ This branch contains multiple inplementations. To see:
 1. Langchain+OpenAI implementation, refer to `prompting/miners/openai_miner.py` 
 2. HuggingFace implementation, refer to `prompting/miners/hf_miner.py` 
 
-It is **necessary** that forward method of the miner class returns this `synapse.create_streaming_response(token_streamer)`. As seen, the `token_streamer` is a partial function that takes in a `send` packet. This packet will be sent by the bittensor middleware to facilitate the communications between the validator and the miner. You do **not** need to modify any logic around the `send` packet, as this is the same for **all** miners. 
+It is **necessary** that forward method of the miner class returns this `synapse.create_streaming_response(token_streamer)`. As seen, the `token_streamer` is a partial function that takes in a `send` packet. This packet will be sent by the cybertensor middleware to facilitate the communications between the validator and the miner. You do **not** need to modify any logic around the `send` packet, as this is the same for **all** miners. 
 

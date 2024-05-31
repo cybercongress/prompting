@@ -17,7 +17,7 @@
 import gc
 import time
 import torch
-import bittensor as bt
+import cybertensor as ct
 from typing import List, Dict
 from vllm import LLM, SamplingParams
 from prompting.cleaners.cleaner import CleanerPipeline
@@ -60,7 +60,7 @@ def load_vllm_pipeline(model_id: str, device: str, gpus: int, max_allowed_memory
         llm.llm_engine.tokenizer.eos_token_id = 128009
         return llm
     except Exception as e:
-        bt.logging.error(
+        ct.logging.error(
             f"Error loading the VLLM pipeline within {max_allowed_memory_in_gb}GB: {e}"
         )
         raise e
@@ -154,7 +154,7 @@ class vLLM_LLM(BaseLLM):
         composed_prompt = self._make_prompt(messages)
         response = self.llm_pipeline(composed_prompt, **self.model_kwargs)
 
-        bt.logging.info(
+        ct.logging.info(
             f"{self.__class__.__name__} generated the following output:\n{response}"
         )
 

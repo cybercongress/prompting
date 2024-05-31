@@ -18,7 +18,7 @@
 import copy
 import sys
 
-import bittensor as bt
+import cybertensor as ct
 
 from abc import ABC, abstractmethod
 
@@ -27,18 +27,18 @@ from prompting.utils.config import check_config, add_args, config
 from prompting.utils.misc import ttl_get_block
 from prompting import __spec_version__ as spec_version
 
-from prompting.mock import MockSubtensor, MockMetagraph
+from prompting.mock import MockCwtensor, MockMetagraph
 
 
 class BaseNeuron(ABC):
     """
-    Base class for Bittensor miners. This class is abstract and should be inherited by a subclass. It contains the core logic for all neurons; validators and miners.
+    Base class for Cybertensor miners. This class is abstract and should be inherited by a subclass. It contains the core logic for all neurons; validators and miners.
 
-    In addition to creating a wallet, subtensor, and metagraph, this class also handles the synchronization of the network state via a basic checkpointing mechanism based on epoch length.
+    In addition to creating a wallet, cwtensor, and metagraph, this class also handles the synchronization of the network state via a basic checkpointing mechanism based on epoch length.
     """
 
     @classmethod
-    def check_config(cls, config: "bt.Config"):
+    def check_config(cls, config: "ct.Config"):
         check_config(cls, config)
 
     @classmethod
@@ -49,9 +49,9 @@ class BaseNeuron(ABC):
     def _config(cls):
         return config(cls)
 
-    subtensor: "bt.subtensor"
-    wallet: "bt.wallet"
-    metagraph: "bt.metagraph"
+    cwtensor: "ct.cwtensor"
+    wallet: "ct.Wallet"
+    metagraph: "ct.metagraph"
     spec_version: int = spec_version
 
     @property
@@ -65,44 +65,44 @@ class BaseNeuron(ABC):
         self.check_config(self.config)
 
         # Set up logging with the provided configuration and directory.
-        bt.logging(config=self.config, logging_dir=self.config.full_path)
+        ct.logging(config=self.config, logging_dir=self.config.full_path)
 
         # If a gpu is required, set the device to cuda:N (e.g. cuda:0)
         self.device = self.config.neuron.device
 
         # Log the configuration for reference.
-        bt.logging.info(self.config)
+        ct.logging.info(self.config)
 
-        # Build Bittensor objects
-        # These are core Bittensor classes to interact with the network.
-        bt.logging.info("Setting up bittensor objects.")
+        # Build Cybertensor objects
+        # These are core Cybertensor classes to interact with the network.
+        ct.logging.info("Setting up Cybertensor objects.")
 
         # The wallet holds the cryptographic key pairs for the miner.
         if self.config.mock:
-            self.wallet = bt.MockWallet(config=self.config)
-            self.subtensor = MockSubtensor(self.config.netuid, wallet=self.wallet)
-            self.metagraph = MockMetagraph(netuid=self.config.netuid, subtensor=self.subtensor)
+            self.wallet = ct.MockWallet(config=self.config)
+            self.cwtensor = MockCwtensor(self.config.netuid, wallet=self.wallet)
+            self.metagraph = MockMetagraph(netuid=self.config.netuid, cwtensor=self.cwtensor)
         else:
-            self.wallet = bt.wallet(config=self.config)
-            self.subtensor = bt.subtensor(config=self.config)
-            self.metagraph = self.subtensor.metagraph(self.config.netuid)
+            self.wallet = ct.Wallet(config=self.config)
+            self.cwtensor = ct.cwtensor(config=self.config)
+            self.metagraph = self.cwtensor.metagraph(self.config.netuid)
 
-        bt.logging.info(f"Wallet: {self.wallet}")
-        bt.logging.info(f"Subtensor: {self.subtensor}")
-        bt.logging.info(f"Metagraph: {self.metagraph}")
+        ct.logging.info(f"Wallet: {self.wallet}")
+        ct.logging.info(f"Subtensor: {self.cwtensor}")
+        ct.logging.info(f"Metagraph: {self.metagraph}")
 
-        # Check if the miner is registered on the Bittensor network before proceeding further.
+        # Check if the miner is registered on the Cybertensor network before proceeding further.
         self.check_registered()
 
         # Each miner gets a unique identity (UID) in the network for differentiation.
         self.uid = self.metagraph.hotkeys.index(self.wallet.hotkey.ss58_address)
-        bt.logging.info(
-            f"Running neuron on subnet: {self.config.netuid} with uid {self.uid} using network: {self.subtensor.chain_endpoint}"
+        ct.logging.info(
+            f"Running neuron on subnet: {self.config.netuid} with uid {self.uid} using network: {self.cwtensor.chain_endpoint}"
         )
         self.step = 0
 
     @abstractmethod
-    def forward(self, synapse: bt.Synapse) -> bt.Synapse:
+    def forward(self, synapse: ct.Synapse) -> ct.Synapse:
         ...
 
     @abstractmethod
@@ -127,11 +127,11 @@ class BaseNeuron(ABC):
 
     def check_registered(self):
         # --- Check for registration.
-        if not self.subtensor.is_hotkey_registered(
+        if not self.cwtensor.is_hotkey_registered(
             netuid=self.config.netuid,
             hotkey_ss58=self.wallet.hotkey.ss58_address,
         ):
-            bt.logging.error(
+            ct.logging.error(
                 f"Wallet: {self.wallet} is not registered on netuid {self.config.netuid}."
                 f" Please register the hotkey using `btcli subnets register` before trying again"
             )
@@ -169,6 +169,6 @@ class BaseNeuron(ABC):
         pass
 
     def load_state(self):
-        bt.logging.debug(
+        ct.logging.debug(
             "load_state() not implemented for this neuron. You can implement this function to load model checkpoints or other useful data."
         )

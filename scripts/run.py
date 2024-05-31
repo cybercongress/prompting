@@ -98,7 +98,7 @@ for neuron in neurons:
     # Construct the PM2 start command
     command = (
         f"pm2 start {neuron['file']} --interpreter python3 --name {neuron['hotkey']}:{neuron['type']} --"
-        + f" --wallet.name {coldkey} --wallet.hotkey {neuron['hotkey']} --subtensor.network {network} --netuid {netuid}"
+        + f" --wallet.name {coldkey} --wallet.hotkey {neuron['hotkey']} --cwtensor.network {network} --netuid {netuid}"
         + f" --axon.port {neuron['port']} --logging.debug {neuron.get('config')}"
     )
     print(command)

@@ -15,7 +15,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 import time
-import bittensor as bt
+import cybertensor as ct
 from prompting.validator import Validator
 
 
@@ -23,11 +23,11 @@ from prompting.validator import Validator
 if __name__ == "__main__":
     with Validator() as v:
         while True:
-            bt.logging.info(
-                f"Validator running:: network: {v.subtensor.network} | block: {v.block} | step: {v.step} | uid: {v.uid} | last updated: {v.block-v.metagraph.last_update[v.uid]} | vtrust: {v.metagraph.validator_trust[v.uid]:.3f} | emission {v.metagraph.emission[v.uid]:.3f}"
+            ct.logging.info(
+                f"Validator running:: network: {v.cwtensor.network} | block: {v.block} | step: {v.step} | uid: {v.uid} | last updated: {v.block-v.metagraph.last_update[v.uid]} | vtrust: {v.metagraph.validator_trust[v.uid]:.3f} | emission {v.metagraph.emission[v.uid]:.3f}"
             )
             time.sleep(5)
 
             if v.should_exit:
-                bt.logging.warning("Ending validator...")
+                ct.logging.warning("Ending validator...")
                 break

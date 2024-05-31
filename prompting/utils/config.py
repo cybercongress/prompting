@@ -19,25 +19,25 @@
 import os
 import torch
 import argparse
-import bittensor as bt
+import cybertensor as ct
 from loguru import logger
 from prompting.tasks import TASKS
 
 
-def check_config(cls, config: "bt.Config"):
+def check_config(cls, config: "ct.Config"):
     r"""Checks/validates the config namespace object."""
-    bt.logging.check_config(config)
+    ct.logging.check_config(config)
 
     full_path = os.path.expanduser(
         "{}/{}/{}/netuid{}/{}".format(
-            config.logging.logging_dir,  # TODO: change from ~/.bittensor/miners to ~/.bittensor/neurons
+            config.logging.logging_dir,  # TODO: change from ~/.cybertensor/miners to ~/.cybertensor/neurons
             config.wallet.name,
             config.wallet.hotkey,
             config.netuid,
             config.neuron.name,
         )
     )
-    bt.logging.info(f"Logging path: {full_path}")
+    ct.logging.info(f"Logging path: {full_path}")
     config.neuron.full_path = os.path.expanduser(full_path)
     if not os.path.exists(config.neuron.full_path):
         os.makedirs(config.neuron.full_path, exist_ok=True)
@@ -410,9 +410,9 @@ def config(cls):
     Returns the configuration object specific to this miner or validator after adding relevant arguments.
     """
     parser = argparse.ArgumentParser()
-    bt.wallet.add_args(parser)
-    bt.subtensor.add_args(parser)
-    bt.logging.add_args(parser)
-    bt.axon.add_args(parser)
+    ct.Wallet.add_args(parser)
+    ct.cwtensor.add_args(parser)
+    ct.logging.add_args(parser)
+    ct.axon.add_args(parser)
     cls.add_args(parser)
-    return bt.config(parser)
+    return ct.Config(parser)

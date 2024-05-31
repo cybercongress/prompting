@@ -1,6 +1,6 @@
-# Contributing to Bittensor Subnet Development
+# Contributing to Cybertensor Subnet Development
 
-The following is a set of guidelines for contributing to the Bittensor ecosystem. These are **HIGHLY RECOMMENDED** guidelines, but not hard-and-fast rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to the Cybertensor ecosystem. These are **HIGHLY RECOMMENDED** guidelines, but not hard-and-fast rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ## Table Of Contents
 1. [How Can I Contribute?](#how-can-i-contribute)
@@ -19,9 +19,9 @@ The following is a set of guidelines for contributing to the Bittensor ecosystem
 We welcome community contributions. Please make an issue or a PR if you encounter any issues or want to make suggested improvements.
 
 ## Communication Channels
-You can reach out to the SN1 team on the offical bittensor discord channel [here](https://discord.com/channels/799672011265015819/1161764867166961704).
+You can reach out to the SN1 team on the offical cybertensor discord channel [here]().
 
-> Please follow the Bittensor Subnet [style guide](./STYLE.md) regardless of your contribution type. 
+> Please follow the Cybertensor Subnet [style guide](./STYLE.md) regardless of your contribution type. 
 
 Here is a high-level summary:
 - Code consistency is crucial; adhere to established programming language conventions.
@@ -40,7 +40,7 @@ Here is a high-level summary:
 
 ### Code Contribution General Guidelines
 
-> Review the Bittensor Subnet [style guide](./STYLE.md) and [development workflow](./DEVELOPMENT_WORKFLOW.md) before contributing. 
+> Review the Cybertensor Subnet [style guide](./STYLE.md) and [development workflow](./DEVELOPMENT_WORKFLOW.md) before contributing. 
 
 
 #### Pull Request Philosophy
@@ -99,7 +99,7 @@ After you submit a pull request, it will be reviewed by the maintainers. They ma
 > Note: Be sure to merge the latest from "upstream" before making a pull request:
 
 ```bash
-git remote add upstream https://github.com/opentensor/bittensor.git # TODO(developer): replace with your repo URL
+git remote add upstream https://github.com/cybercongress/cybertensor.git # TODO(developer): replace with your repo URL
 git fetch upstream
 git merge upstream/<your-branch-name>
 git push origin <your-branch-name>
@@ -166,28 +166,28 @@ Please track bugs as GitHub issues.
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible. For example, start by explaining how you started the application, e.g. which command exactly you used in the terminal, or how you started Bittensor otherwise. When listing steps, **don't just say what you did, but explain how you did it**. For example, if you ran with a set of custom configs, explain if you used a config file or command line arguments. 
+* **Describe the exact steps which reproduce the problem** in as many details as possible. For example, start by explaining how you started the application, e.g. which command exactly you used in the terminal, or how you started Cybertensor otherwise. When listing steps, **don't just say what you did, but explain how you did it**. For example, if you ran with a set of custom configs, explain if you used a config file or command line arguments. 
 * **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
 * **Explain which behavior you expected to see instead and why.**
 * **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.
-* **If you're reporting that Bittensor crashed**, include a crash report with a stack trace from the operating system. On macOS, the crash report will be available in `Console.app` under "Diagnostic and usage information" > "User diagnostic reports". Include the crash report in the issue in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines), a [file attachment](https://help.github.com/articles/file-attachments-on-issues-and-pull-requests/), or put it in a [gist](https://gist.github.com/) and provide link to that gist.
+* **If you're reporting that Cybertensor crashed**, include a crash report with a stack trace from the operating system. On macOS, the crash report will be available in `Console.app` under "Diagnostic and usage information" > "User diagnostic reports". Include the crash report in the issue in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines), a [file attachment](https://help.github.com/articles/file-attachments-on-issues-and-pull-requests/), or put it in a [gist](https://gist.github.com/) and provide link to that gist.
 * **If the problem is related to performance or memory**, include a CPU profile capture with your report, if you're using a GPU then include a GPU profile capture as well. Look into the [PyTorch Profiler](https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html) to look at memory usage of your model.
 * **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
 
 Provide more context by answering these questions:
 
 * **Did the problem start happening recently** (e.g. after updating to a new version) or was this always a problem?
-* If the problem started happening recently, **can you reproduce the problem in an older version of Bittensor?** 
+* If the problem started happening recently, **can you reproduce the problem in an older version of Cybertensor?** 
 * **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
 
 Include details about your configuration and environment:
 
-* **Which version of Bittensor Subnet are you using?**
+* **Which version of Cybertensor Subnet are you using?**
 * **What commit hash are you on?** You can get the exact commit hash by checking `git log` and pasting the full commit hash.
 * **What's the name and version of the OS you're using**?
-* **Are you running Bittensor Subnet in a virtual machine?** If so, which VM software are you using and which operating systems and versions are used for the host and the guest?
-* **Are you running Bittensor Subnet in a dockerized container?** If so, have you made sure that your docker container contains your latest changes and is up to date with Master branch?
+* **Are you running Cybertensor Subnet in a virtual machine?** If so, which VM software are you using and which operating systems and versions are used for the host and the guest?
+* **Are you running Cybertensor Subnet in a dockerized container?** If so, have you made sure that your docker container contains your latest changes and is up to date with Master branch?
 
 ### Suggesting Enhancements and Features
 
@@ -210,4 +210,4 @@ When you are creating an enhancement suggestion, please [include as many details
 * **List some other text editors or applications where this enhancement exists.**
 * **Specify the name and version of the OS you're using.**
 
-Thank you for considering contributing to Bittensor! Any help is greatly appreciated along this journey to incentivize open and permissionless intelligence.
+Thank you for considering contributing to Cybertensor! Any help is greatly appreciated along this journey to incentivize open and permissionless intelligence.

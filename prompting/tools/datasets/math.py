@@ -20,7 +20,7 @@ import time
 import random
 import itertools
 import mathgenerator
-import bittensor as bt
+import cybertensor as ct
 from sympy.parsing.latex import parse_latex
 from typing import Dict, Union, List, Tuple
 
@@ -56,7 +56,7 @@ class MathDataset(Dataset):
         Returns:
             Dict: _description_
         """
-        bt.logging.info(f"Getting math problem {name!r}")
+        ct.logging.info(f"Getting math problem {name!r}")
         max_tries = 10
         for _ in range(max_tries):
             info = mathgenerator.generate_context(name, **kwargs)

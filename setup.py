@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
 # Copyright © 2023 Opentensor Foundation
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -68,16 +69,16 @@ with codecs.open(
 setup(
     name="prompting",
     version=version_string,
-    description="SN1: An incentive mechanism for internet-scale conversational intelligence",
+    description="ML Verse SN1: An incentive mechanism for internet-scale conversational intelligence",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/opentensor/prompting",
-    author="bittensor.com",
+    url="https://github.com/cybercongress/prompting",
+    author="cyberCongress",
     packages=find_packages(),
     include_package_data=True,
     author_email="",
     license="MIT",
-    python_requires=">=3.8",
+    python_requires=">=3.9.6, <3.12",
     install_requires=requirements,
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -1,5 +1,5 @@
-# OpenAI Bittensor Miner
-This repository contains a Bittensor Miner that uses langchain and OpenAI's model as its synapse. The miner connects to the Bittensor network, registers its wallet, and serves the GPT model to the network.
+# OpenAI Cybertensor Miner
+This repository contains a Cybertensor Miner that uses langchain and OpenAI's model as its synapse. The miner connects to the Cybertensor network, registers its wallet, and serves the GPT model to the network.
 
 ## Prerequisites
 
@@ -20,11 +20,11 @@ git clone https://github.com/opentensor/prompting.git
 echo OPENAI_API_KEY=YOUR-KEY > .env
 ```
 
-For more configuration options related to the wallet, axon, subtensor, logging, and metagraph, please refer to the Bittensor documentation.
+For more configuration options related to the wallet, axon, cwtensor, logging, and metagraph, please refer to the Cybertensor documentation.
 
 ## Example Usage
 
-To run the OpenAI Bittensor Miner with default settings, use the following command:
+To run the OpenAI Cybertensor Miner with default settings, use the following command:
 
 ```bash
 python3 neurons/miners/openai/miner.py \

@@ -16,9 +16,9 @@
 # DEALINGS IN THE SOFTWARE.
 import wandb
 import typing
-import bittensor as bt
+import cybertensor as ct
 
-# Bittensor Miner Template:
+# Cybertensor Miner Template:
 import prompting
 from prompting.protocol import StreamPromptingSynapse
 from prompting.base.miner import BaseStreamMinerNeuron
@@ -31,7 +31,7 @@ class BaseStreamPromptingMiner(BaseStreamMinerNeuron):
     In particular, you should replace the forward function with your own logic. You may also want to override the blacklist and priority functions according to your needs.
 
     This class inherits from the BaseMinerNeuron class, which in turn inherits from BaseNeuron.
-    The BaseNeuron class takes care of routine tasks such as setting up wallet, subtensor, metagraph, logging directory, parsing config, etc.
+    The BaseNeuron class takes care of routine tasks such as setting up wallet, cwtensor, metagraph, logging directory, parsing config, etc.
     You can override any of the methods in BaseNeuron if you need to customize the behavior.
 
     This class provides reasonable default behavior for a miner such as blacklisting unrecognized hotkeys, prioritizing requests based on stake, and forwarding requests to the forward function.
@@ -75,12 +75,12 @@ class BaseStreamPromptingMiner(BaseStreamMinerNeuron):
         """
         if synapse.dendrite.hotkey not in self.metagraph.hotkeys:
             # Ignore requests from unrecognized entities.
-            bt.logging.trace(
+            ct.logging.trace(
                 f"Blacklisting unrecognized hotkey {synapse.dendrite.hotkey}"
             )
             return True, "Unrecognized hotkey"
 
-        bt.logging.trace(
+        ct.logging.trace(
             f"Not Blacklisting recognized hotkey {synapse.dendrite.hotkey}"
         )
         return False, "Hotkey recognized!"
@@ -111,13 +111,13 @@ class BaseStreamPromptingMiner(BaseStreamMinerNeuron):
         priority = float(
             self.metagraph.S[caller_uid]
         )  # Return the stake as the priority.
-        bt.logging.trace(
+        ct.logging.trace(
             f"Prioritizing {synapse.dendrite.hotkey} with value: ", priority
         )
         return priority
 
     def init_wandb(self):
-        bt.logging.info("Initializing wandb...")
+        ct.logging.info("Initializing wandb...")
 
         uid = f"uid_{self.metagraph.hotkeys.index(self.wallet.hotkey.ss58_address)}"
         net_uid = f"netuid_{self.config.netuid}"
@@ -183,11 +183,11 @@ class BaseStreamPromptingMiner(BaseStreamMinerNeuron):
             **extra_info,
         }
 
-        bt.logging.info("Logging event to wandb...", step_log)
+        ct.logging.info("Logging event to wandb...", step_log)
         wandb.log(step_log)
 
     def log_status(self):
         m = self.metagraph
-        bt.logging.info(
-            f"Miner running:: network: {self.subtensor.network} | step: {self.step} | uid: {self.uid} | trust: {m.trust[self.uid]:.3f} | emission {m.emission[self.uid]:.3f}"
+        ct.logging.info(
+            f"Miner running:: network: {self.cwtensor.network} | step: {self.step} | uid: {self.uid} | trust: {m.trust[self.uid]:.3f} | emission {m.emission[self.uid]:.3f}"
         )

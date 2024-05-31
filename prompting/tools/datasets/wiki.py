@@ -20,7 +20,7 @@ import re
 import sys
 import random
 import datetime
-import bittensor as bt
+import cybertensor as ct
 import wikipedia as wiki
 from typing import Dict, Union, List, Tuple
 from queue import Queue, Full, Empty
@@ -53,7 +53,7 @@ def _get_page(
         return page
 
     except wiki.DisambiguationError as e:
-        bt.logging.debug(f"{e.__class__.__name__} loading page {title!r}: {e}")
+        ct.logging.debug(f"{e.__class__.__name__} loading page {title!r}: {e}")
         # exc info contains a tuple of (requested_title: str, possible_matches: List[str])
         pages = sys.exc_info()[1].args[1]
         if not type(pages) == list:
@@ -62,7 +62,7 @@ def _get_page(
         return _get_page(title, auto_suggest=auto_suggest, redirect=redirect)
 
     except wiki.PageError as e:
-        bt.logging.warning(f"{e.__class__.__name__} loading page {title!r}: {e}")
+        ct.logging.warning(f"{e.__class__.__name__} loading page {title!r}: {e}")
         if not auto_suggest:
             return _get_page(title, auto_suggest=True, redirect=redirect)
         return None
@@ -113,7 +113,7 @@ def process_page(
         sections[key] = content.splitlines()
 
     if not sections:
-        bt.logging.debug(f"No valid sections found in page {page.title!r} ({page.url})")
+        ct.logging.debug(f"No valid sections found in page {page.title!r} ({page.url})")
 
     return sections
 
@@ -230,7 +230,7 @@ class WikiDataset(Dataset):
         try:
             CACHED_ARTICLES.put(context, block=False)
         except Full:
-            bt.logging.debug("Cache is full. Skipping article until cache is emptied.")
+            ct.logging.debug("Cache is full. Skipping article until cache is emptied.")
         return context
 
     def search(self, name, results=3, selector: Selector = None) -> Dict:
@@ -306,7 +306,7 @@ class WikiDateDataset(Dataset):
                     return context
 
             except Empty:
-                bt.logging.debug("Cache is empty. Skipping date until cache is filled.")
+                ct.logging.debug("Cache is empty. Skipping date until cache is filled.")
                 return None
 
     def get(

@@ -21,7 +21,7 @@ import random
 import functools
 from abc import ABC, abstractmethod
 from typing import Dict
-import bittensor as bt
+import cybertensor as ct
 
 from ..selector import Selector
 from prompting.shared.context import Context
@@ -66,7 +66,7 @@ class Dataset(ABC):
             if info:
                 break
 
-            bt.logging.debug(
+            ct.logging.debug(
                 f"Could not find any samples which meet {self.__class__.__name__} requirements after {tries} tries. Retrying... ({self.max_tries - tries} tries remaining.)"
             )
 

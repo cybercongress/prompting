@@ -22,7 +22,7 @@ import random
 import requests
 import itertools
 
-import bittensor as bt
+import cybertensor as ct
 from bs4 import BeautifulSoup
 
 from .base import Dataset
@@ -671,7 +671,7 @@ class StackOverflowDataset:
         response_answers.raise_for_status()
         answers = response_answers.json()["items"]
         if not answers:
-            bt.logging.warning("No answers found for the question!")
+            ct.logging.warning("No answers found for the question!")
 
         highest_voted_answer = answers[0]  # The first answer is the highest voted
         soup = BeautifulSoup(highest_voted_answer["body"], "html.parser")
@@ -679,7 +679,7 @@ class StackOverflowDataset:
         return full_content
 
     def next(self):
-        bt.logging.debug("Retrieving data from prompting.dataset...")
+        ct.logging.debug("Retrieving data from prompting.dataset...")
         t0 = time.time()
         info = self.get_stack_question()
         info["fetch_time"] = time.time() - t0
