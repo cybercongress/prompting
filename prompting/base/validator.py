@@ -122,11 +122,11 @@ class BaseValidatorNeuron(BaseNeuron):
 
         if not self.config.neuron.axon_off:
             ct.logging.info(
-                f"Running validator {self.axon} on network: {self.config.cwtensor.chain_endpoint} with netuid: {self.config.netuid}"
+                f"Running validator {self.axon} on network: {self.config.cwtensor.network_config.url} with netuid: {self.config.netuid}"
             )
         else:
             ct.logging.info(
-                f"Running validator on network: {self.config.cwtensor.chain_endpoint} with netuid: {self.config.netuid}"
+                f"Running validator on network: {self.config.cwtensor.network_config.url} with netuid: {self.config.netuid}"
             )
 
         ct.logging.info(f"Validator starting at block: {self.block}")
