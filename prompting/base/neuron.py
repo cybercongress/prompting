@@ -88,14 +88,14 @@ class BaseNeuron(ABC):
             self.metagraph = self.cwtensor.metagraph(self.config.netuid)
 
         ct.logging.info(f"Wallet: {self.wallet}")
-        ct.logging.info(f"Subtensor: {self.cwtensor}")
+        ct.logging.info(f"Cwtensor: {self.cwtensor}")
         ct.logging.info(f"Metagraph: {self.metagraph}")
 
         # Check if the miner is registered on the Cybertensor network before proceeding further.
         self.check_registered()
 
         # Each miner gets a unique identity (UID) in the network for differentiation.
-        self.uid = self.metagraph.hotkeys.index(self.wallet.hotkey.ss58_address)
+        self.uid = self.metagraph.hotkeys.index(self.wallet.hotkey.address)
         ct.logging.info(
             f"Running neuron on subnet: {self.config.netuid} with uid {self.uid} using network: {self.cwtensor.chain_endpoint}"
         )
@@ -129,7 +129,7 @@ class BaseNeuron(ABC):
         # --- Check for registration.
         if not self.cwtensor.is_hotkey_registered(
             netuid=self.config.netuid,
-            hotkey_ss58=self.wallet.hotkey.ss58_address,
+            hotkey=self.wallet.hotkey.address,
         ):
             ct.logging.error(
                 f"Wallet: {self.wallet} is not registered on netuid {self.config.netuid}."

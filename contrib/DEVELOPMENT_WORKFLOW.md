@@ -1,6 +1,6 @@
 # Cybertensor Subnet Development Workflow
 
-This is a highly advisable workflow to follow to keep your subtensor project organized and foster ease of contribution.
+This is a highly advisable workflow to follow to keep your project organized and foster ease of contribution.
 
 ## Table of contents
 

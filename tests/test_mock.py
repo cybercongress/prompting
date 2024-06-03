@@ -24,12 +24,12 @@ def test_mock_cwtensor(netuid, n, wallet):
     # Check wallet
     if wallet is not None:
         assert cwtensor.is_hotkey_registered(
-            netuid=netuid, hotkey_ss58=wallet.hotkey.ss58_address
+            netuid=netuid, hotkey=wallet.hotkey.address
         )
 
     for neuron in neurons:
         assert type(neuron) == ct.NeuronInfo
-        assert cwtensor.is_hotkey_registered(netuid=netuid, hotkey_ss58=neuron.hotkey)
+        assert cwtensor.is_hotkey_registered(netuid=netuid, hotkey=neuron.hotkey)
 
 
 @pytest.mark.parametrize("n", [16, 32, 64])

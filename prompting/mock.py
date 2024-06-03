@@ -89,8 +89,8 @@ class MockCwtensor(ct.MockCwtensor):
         if wallet is not None:
             self.force_register_neuron(
                 netuid=netuid,
-                hotkey=wallet.hotkey.ss58_address,
-                coldkey=wallet.coldkey.ss58_address,
+                hotkey=wallet.hotkey.address,
+                coldkey=wallet.coldkey.address,
                 balance=100000,
                 stake=100000,
             )
@@ -355,4 +355,4 @@ class MockDendrite(ct.dendrite):
         Returns:
             str: The string representation of the Dendrite object in the format "dendrite(<user_wallet_address>)".
         """
-        return "MockDendrite({})".format(self.keypair.ss58_address)
+        return "MockDendrite({})".format(self.keypair.address)

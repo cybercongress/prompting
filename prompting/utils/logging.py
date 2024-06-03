@@ -62,7 +62,7 @@ def should_reinit_wandb(self):
 def init_wandb(self, reinit=False):
     """Starts a new wandb run."""
     tags = [
-        self.wallet.hotkey.ss58_address,
+        self.wallet.hotkey.address,
         prompting.__version__,
         str(prompting.__spec_version__),
         f"netuid_{self.metagraph.netuid}",

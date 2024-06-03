@@ -119,10 +119,10 @@ class BaseStreamPromptingMiner(BaseStreamMinerNeuron):
     def init_wandb(self):
         ct.logging.info("Initializing wandb...")
 
-        uid = f"uid_{self.metagraph.hotkeys.index(self.wallet.hotkey.ss58_address)}"
+        uid = f"uid_{self.metagraph.hotkeys.index(self.wallet.hotkey.address)}"
         net_uid = f"netuid_{self.config.netuid}"
         tags = [
-            self.wallet.hotkey.ss58_address,
+            self.wallet.hotkey.address,
             net_uid,
             f"uid_{uid}",
             prompting.__version__,
@@ -174,7 +174,7 @@ class BaseStreamPromptingMiner(BaseStreamMinerNeuron):
             "prompt": prompt,
             "completion": completion,
             "system_prompt": system_prompt,
-            "uid": self.metagraph.hotkeys.index(self.wallet.hotkey.ss58_address),
+            "uid": self.metagraph.hotkeys.index(self.wallet.hotkey.address),
             "stake": self.metagraph.S[self.uid].item(),
             "trust": self.metagraph.T[self.uid].item(),
             "incentive": self.metagraph.I[self.uid].item(),
