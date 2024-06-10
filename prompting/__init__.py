@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -16,34 +17,32 @@
 # DEALINGS IN THE SOFTWARE.
 
 # Define the version of the template module.
-__version__ = "2.3.1"
+__version__ = "0.0.1"
 version_split = __version__.split(".")
 __spec_version__ = (
-    (10000 * int(version_split[0]))
-    + (100 * int(version_split[1]))
-    + (1 * int(version_split[2]))
+        (10000 * int(version_split[0]))
+        + (100 * int(version_split[1]))
+        + (1 * int(version_split[2]))
 )
 
 # Import all submodules.
-from . import protocol
+from . import agent
 from . import base
+from . import conversation
+from . import dendrite
+from . import forward
+from . import protocol
 from . import rewards
+from . import shared
 from . import tasks
 from . import tools
 from . import utils
-
-from . import forward
-from . import agent
-from . import conversation
-from . import dendrite
-from . import shared
 from . import validator
 
 from .llms import hf
-
+from .task_registry import TASK_REGISTRY
 from .tasks import TASKS
 from .tools import DATASETS
-from .task_registry import TASK_REGISTRY
 
 # Assert that all tasks have a dataset, and all tasks/datasets are in the TASKS and DATASETS dictionaries.
 registry_missing_task = set(TASKS.keys()) - set(TASK_REGISTRY.keys())

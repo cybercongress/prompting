@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -96,7 +97,7 @@ class BaseStreamMinerNeuron(BaseNeuron):
         # Serve passes the axon information to the network + netuid we are hosting on.
         # This will auto-update if the axon port of external ip have changed.
         ct.logging.info(
-            f"Serving miner axon {self.axon} on network: {self.config.cwtensor.network_config.url} with netuid: {self.config.netuid}"
+            f"Serving miner axon {self.axon} on network: {self.config.cwtensor.network} with netuid: {self.config.netuid}"
         )
         self.axon.serve(netuid=self.config.netuid, cwtensor=self.cwtensor)
 
