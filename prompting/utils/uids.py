@@ -7,15 +7,15 @@ from typing import List
 def check_uid_availability(
     metagraph: "ct.metagraph.Metagraph",
     uid: int,
-    vpermit_tao_limit: int,
+    vpermit_limit: int,
     coldkeys: set = None,
     ips: set = None,
 ) -> bool:
-    """Check if uid is available. The UID should be available if it is serving and has less than vpermit_tao_limit stake
+    """Check if uid is available. The UID should be available if it is serving and has less than vpermit_limit stake
     Args:
         metagraph (:obj: ct.metagraph.Metagraph): Metagraph object
         uid (int): uid to be checked
-        vpermit_tao_limit (int): Validator permit tao limit
+        vpermit_limit (int): Validator permit token limit
         coldkeys (set): Set of coldkeys to exclude
         ips (set): Set of ips to exclude
     Returns:
@@ -27,9 +27,9 @@ def check_uid_availability(
         return False
 
     # Filter validator permit > 1024 stake.
-    if metagraph.validator_permit[uid] and metagraph.S[uid] > vpermit_tao_limit:
+    if metagraph.validator_permit[uid] and metagraph.S[uid] > vpermit_limit:
         ct.logging.debug(
-            f"uid: {uid} has vpermit and stake ({metagraph.S[uid]}) > {vpermit_tao_limit}"
+            f"uid: {uid} has vpermit and stake ({metagraph.S[uid]}) > {vpermit_limit}"
         )
         return False
 
