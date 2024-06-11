@@ -364,9 +364,9 @@ def add_validator_args(cls, parser):
     )
 
     parser.add_argument(
-        "--neuron.vpermit_tao_limit",
+        "--neuron.vpermit_limit",
         type=int,
-        help="The maximum number of TAO allowed to query a validator with a vpermit.",
+        help="The maximum number of token allowed to query a validator with a vpermit.",
         default=4096,
     )
 
