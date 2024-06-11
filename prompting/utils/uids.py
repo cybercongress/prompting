@@ -46,6 +46,7 @@ def check_uid_availability(
 def get_random_uids(self, k: int, exclude: List[int] = None) -> torch.LongTensor:
     """Returns k available random uids from the metagraph.
     Args:
+        self (template.base.neuron.BaseNeuron): Neuron
         k (int): Number of uids to return.
         exclude (List[int]): List of uids to exclude from the random sampling.
     Returns:
@@ -54,38 +55,28 @@ def get_random_uids(self, k: int, exclude: List[int] = None) -> torch.LongTensor
         If `k` is larger than the number of available `uids`, set `k` to the number of available `uids`.
     """
     candidate_uids = []
-    coldkeys = set()
-    ips = set()
+    avail_uids = []
+
     for uid in range(self.metagraph.n.item()):
-        if uid == self.uid:
-            continue
-
         uid_is_available = check_uid_availability(
-            self.metagraph,
-            uid,
-            self.config.neuron.vpermit_tao_limit,
-            coldkeys,
-            ips,
+            self.metagraph, uid, self.config.neuron.vpermit_limit
         )
-        if not uid_is_available:
-            continue
+        uid_is_not_excluded = exclude is None or uid not in exclude
 
-        if self.config.neuron.query_unique_coldkeys:
-            coldkeys.add(self.metagraph.axons[uid].coldkey)
+        if uid_is_available:
+            avail_uids.append(uid)
+            if uid_is_not_excluded:
+                candidate_uids.append(uid)
 
-        if self.config.neuron.query_unique_ips:
-            ips.add(self.metagraph.axons[uid].ip)
+    # Check if candidate_uids contain enough for querying, if not grab all available uids
+    available_uids = candidate_uids
+    # If k is larger than the number of available uids, set k to the number of available uids.
+    k = min(k, len(available_uids))
 
-        if exclude is None or uid not in exclude:
-            candidate_uids.append(uid)
-
-    # Check if candidate_uids contain enough for querying, if not grab all avaliable uids
-    if 0 < len(candidate_uids) < k:
-        ct.logging.warning(
-            f"Requested {k} uids but only {len(candidate_uids)} were available. To disable this warning reduce the sample size (--neuron.sample_size)"
+    if len(candidate_uids) < k:
+        available_uids += random.sample(
+            [uid for uid in avail_uids if uid not in candidate_uids],
+            k - len(candidate_uids),
         )
-        return torch.tensor(candidate_uids)
-    elif len(candidate_uids) >= k:
-        return torch.tensor(random.sample(candidate_uids, k))
-    else:
-        raise ValueError(f"No eligible uids were found. Cannot return {k} uids")
+    uids = torch.tensor(random.sample(available_uids, k))
+    return uids

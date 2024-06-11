@@ -67,7 +67,6 @@ def load_vllm_pipeline(model_id: str, device: str, gpus: int, max_allowed_memory
         raise e
         
 
-
 class vLLMPipeline(BasePipeline):
     def __init__(self, model_id: str, llm_max_allowed_memory_in_gb: int, device: str = None, gpus: int = 1, mock: bool = False):
         super().__init__()
