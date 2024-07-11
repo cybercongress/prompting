@@ -308,7 +308,7 @@ def add_validator_args(cls, parser):
         "--neuron.timeout",
         type=float,
         help="The timeout for each forward call in seconds.",
-        default=10,
+        default=60,
     )
 
     parser.add_argument(
@@ -329,7 +329,8 @@ def add_validator_args(cls, parser):
         "--neuron.sample_size",
         type=int,
         help="The number of miners to query in a single step.",
-        default=50,
+        # default=50,
+        default=10,
     )
 
     parser.add_argument(
@@ -367,7 +368,7 @@ def add_validator_args(cls, parser):
         "--neuron.vpermit_limit",
         type=int,
         help="The maximum number of token allowed to query a validator with a vpermit.",
-        default=4096,
+        default=100000000000000,
     )
 
     parser.add_argument(
