@@ -1,32 +1,36 @@
-<picture>
-    <source srcset="./assets/macrocosmos-white.png"  media="(prefers-color-scheme: dark)">
-    <img src="macrocosmos-white.png">
-</picture>
+# Welcome to Game of Tensors
 
-<picture>
-    <source srcset="./assets/macrocosmos-black.png"  media="(prefers-color-scheme: light)">
-    <img src="macrocosmos-black.png">
-</picture>
+#### You can participate in the Game of Tensors by running a miner or a validator on the Cybertensor network launched on Space Pussy blockchain.
 
-<div align="center">
+- [Machine Learning Verse on SpacePussy](https://spacepussy.ai/cyberver/verses/pussy/ml/faculties)
+- [Prompting subnet on SpacePussy](https://spacepussy.ai/cyberver/verses/pussy/ml/faculties/2)
 
-# **Cybertensor SN1** <!-- omit in toc -->
+## Launch validator:
+```bash
+python3 neurons/validator.py --netuid 2  --wallet.name=wallet_name --wallet.hotkey=default --cwtensor.network=space-pussy --axon.port=9000 --logging.logging_dir=validator_logs --logging.record_log --logging.debug --neuron.device=cuda --torch_dtype=torch.float16 --neuron.llm_max_allowed_memory_in_gb=14 --neuron.model_id=casperhansen/llama-3-8b-instruct-awq --wandb.off
+```
 
-<p>
-    <img alt="GitHub" src="https://img.shields.io/github/license/Snedashkovsky/promting">
-    <img alt="Python" src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue">
-</p>
+## Launch miner:
+```bash
+python3 neurons/miners/huggingface/miner.py --netuid 2  --wallet.name=wallet_name --wallet.hotkey=default --cwtensor.network=space-pussy --axon.port=7000  --logging.logging_dir=miner_logs --logging.record_log --logging.debug --neuron.device=cuda --torch_dtype=torch.float16 --neuron.llm_max_allowed_memory_in_gb=8 --neuron.model_id=casperhansen/llama-3-8b-instruct-awq --wandb.off
+```
+
+
+## Notes
+```bash
+# activate venv
+. venv/bin/activate
+
+# install requirements
+pip3 install -e .
+
+# if you have errors
+pip3 uninstall uvloop -y
+```
 
 ---
 
-### The Incentivized Internet <!-- omit in toc -->
-
-
-</div>
-
----
-
-This repository is the **official codebase for Cybertensor Subnet 1 (SN1) v1.0.0+, which was released on 22nd January 2024**. To learn more about the Cybertensor project and the underlying mechanics, [read here](https://docs.spacepussy.ai/).
+This repository is the official codebase for Cybertensor Subnet 1 (SN1) which is fork of Bittensor Subneet 1 (SN1). To learn more about the Cybertensor project and the underlying mechanics, [read here](https://docs.spacepussy.ai/).
 
 # Introduction
 
