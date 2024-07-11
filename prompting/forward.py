@@ -240,13 +240,26 @@ async def run_step(
     )
     ct.logging.info(f"Created RewardResult:\n {reward_result}")
 
-    best_response = response_event.completions[reward_result.rewards.argmax()]
+    try:
+        best_response = response_event.completions[reward_result.rewards.argmax()]
+    except Exception as e:
+        # TODO added during debugging, remove later after testing
+        print(f"An error occured best response: {e}")
+        best_response = []
 
     # The original idea was that the agent is 'satisfied' when it gets a good enough response (e.g. reward critera is met, such as ROUGE>threshold)
-    agent.update_progress(
-        top_reward=reward_result.rewards.max(),
-        top_response=best_response,
-    )
+    try:
+        agent.update_progress(
+            top_reward=reward_result.rewards.max(),
+            top_response=best_response,
+        )
+    except Exception as e:
+        # TODO added during debugging, remove later after testing
+        print(f"An error occured update progress: {e}")
+        agent.update_progress(
+            top_reward=0.0,
+            top_response=best_response,
+        )
 
     self.update_scores(reward_result.rewards, uids)
 
@@ -256,17 +269,31 @@ async def run_step(
         for stream_result in stream_results
     ]
     # Log the step event.
-    event = {
-        "best": best_response,
-        "block": self.block,
-        "step": self.step,
-        "step_time": time.time() - start_time,
-        "stream_results_uids": stream_results_uids,
-        "stream_results_exceptions": stream_results_exceptions,
-        **agent.__state_dict__(full=self.config.neuron.log_full),
-        **reward_result.__state_dict__(full=self.config.neuron.log_full),
-        **response_event.__state_dict__(),
-    }
+    try:
+        event = {
+            "best": best_response,
+            "block": self.block,
+            "step": self.step,
+            "step_time": time.time() - start_time,
+            "stream_results_uids": stream_results_uids,
+            "stream_results_exceptions": stream_results_exceptions,
+            **agent.__state_dict__(full=self.config.neuron.log_full),
+            **reward_result.__state_dict__(full=self.config.neuron.log_full),
+            **response_event.__state_dict__(),
+        }
+    except Exception as e:
+        # TODO added during debugging, remove later after testing
+        event = {
+            "best": best_response,
+            "block": self.block,
+            "step": self.step,
+            "step_time": time.time() - start_time,
+            "stream_results_uids": stream_results_uids,
+            "stream_results_exceptions": stream_results_exceptions,
+            **agent.__state_dict__(full=self.config.neuron.log_full),
+            "reward_result": {"rewards": [[]]},
+            **response_event.__state_dict__(),
+        }
 
     return event
 
