@@ -107,10 +107,11 @@ class BaseStreamMinerNeuron(BaseNeuron):
         ct.logging.info(f"Miner starting at block: {self.block}")
 
         # This loop maintains the miner's operations until intentionally stopped.
+        last_update_block = 0
         try:
             while not self.should_exit:
                 while (
-                    self.block - self.metagraph.last_update[self.uid]
+                    self.block - last_update_block
                     < self.config.neuron.epoch_length
                 ):
                     # Wait before checking again.
@@ -122,6 +123,7 @@ class BaseStreamMinerNeuron(BaseNeuron):
 
                 # Sync metagraph and potentially set weights.
                 self.sync()
+                last_update_block = self.block
                 self.step += 1
 
         # If someone intentionally stops the miner, it'll safely terminate operations.
