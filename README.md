@@ -86,7 +86,7 @@ sudo apt update && sudo apt install jq && sudo apt install npm && sudo npm insta
 Example of running a miner: 
 
 ```bash
-python neurons/miners/huggingface/miner.py --netuid 1  --wallet.name=miner --wallet.hotkey=default --cwtensor.network=space-pussy --axon.pot=10000  --logging.logging_dir=validator_logs --logging.record_log --logging.trace --neuron.device=cuda --neuron.model_id=casperhansen/llama-3-8b-instruct-awq
+python neurons/miners/huggingface/miner.py --netuid 1  --wallet.name=miner --wallet.hotkey=default --cwtensor.network=space-pussy --axon.port=10000  --logging.logging_dir=validator_logs --logging.record_log --logging.trace --neuron.device=cuda --neuron.model_id=casperhansen/llama-3-8b-instruct-awq
 ```
 or
 ```bash
