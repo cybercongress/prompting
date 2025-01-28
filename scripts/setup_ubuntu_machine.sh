@@ -7,8 +7,8 @@ apt-get install sudo
 # Install python3-pip
 sudo apt install -y python3-pip
 
-# Upgrade bittensor
-python3 -m pip install --upgrade bittensor
+# Upgrade cybertensor
+python3 -m pip install --upgrade cybertensor
 
 apt install tree
 
@@ -18,7 +18,7 @@ sudo apt update && sudo apt install jq && sudo apt install npm && sudo npm insta
 # echo 'export OPENAI_API_KEY=YOUR_OPEN_AI_KEY' >> ~/.bashrc
 
 # Clone the repository
-git clone https://github.com/opentensor/prompting.git
+git clone https://github.com/cybercongress/prompting.git
 
 # Change to the prompting directory
 cd prompting

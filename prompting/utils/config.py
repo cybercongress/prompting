@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
 # Copyright © 2023 Opentensor Foundation
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -19,25 +20,25 @@
 import os
 import torch
 import argparse
-import bittensor as bt
+import cybertensor as ct
 from loguru import logger
 from prompting.tasks import TASKS
 
 
-def check_config(cls, config: "bt.Config"):
+def check_config(cls, config: "ct.Config"):
     r"""Checks/validates the config namespace object."""
-    bt.logging.check_config(config)
+    ct.logging.check_config(config)
 
     full_path = os.path.expanduser(
         "{}/{}/{}/netuid{}/{}".format(
-            config.logging.logging_dir,  # TODO: change from ~/.bittensor/miners to ~/.bittensor/neurons
+            config.logging.logging_dir,  # TODO: change from ~/.cybertensor/miners to ~/.cybertensor/neurons
             config.wallet.name,
             config.wallet.hotkey,
             config.netuid,
             config.neuron.name,
         )
     )
-    bt.logging.info(f"Logging path: {full_path}")
+    ct.logging.info(f"Logging path: {full_path}")
     config.neuron.full_path = os.path.expanduser(full_path)
     if not os.path.exists(config.neuron.full_path):
         os.makedirs(config.neuron.full_path, exist_ok=True)
@@ -83,7 +84,7 @@ def add_args(cls, parser):
         "--neuron.llm_max_allowed_memory_in_gb",
         type=int,
         help="The max gpu memory utilization set for initializing the model. This parameter currently reflects on the property `gpu_memory_utilization` of vllm",
-        default=60,
+        default=8,
     )
 
     parser.add_argument(
@@ -307,7 +308,7 @@ def add_validator_args(cls, parser):
         "--neuron.timeout",
         type=float,
         help="The timeout for each forward call in seconds.",
-        default=10,
+        default=60,
     )
 
     parser.add_argument(
@@ -328,7 +329,8 @@ def add_validator_args(cls, parser):
         "--neuron.sample_size",
         type=int,
         help="The number of miners to query in a single step.",
-        default=50,
+        # default=50,
+        default=10,
     )
 
     parser.add_argument(
@@ -363,10 +365,10 @@ def add_validator_args(cls, parser):
     )
 
     parser.add_argument(
-        "--neuron.vpermit_tao_limit",
+        "--neuron.vpermit_limit",
         type=int,
-        help="The maximum number of TAO allowed to query a validator with a vpermit.",
-        default=4096,
+        help="The maximum number of token allowed to query a validator with a vpermit.",
+        default=100000000000000,
     )
 
     parser.add_argument(
@@ -410,9 +412,9 @@ def config(cls):
     Returns the configuration object specific to this miner or validator after adding relevant arguments.
     """
     parser = argparse.ArgumentParser()
-    bt.wallet.add_args(parser)
-    bt.subtensor.add_args(parser)
-    bt.logging.add_args(parser)
-    bt.axon.add_args(parser)
+    ct.Wallet.add_args(parser)
+    ct.cwtensor.add_args(parser)
+    ct.logging.add_args(parser)
+    ct.axon.add_args(parser)
     cls.add_args(parser)
-    return bt.config(parser)
+    return ct.Config(parser)

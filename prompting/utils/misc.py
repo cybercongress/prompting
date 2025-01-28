@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
 # Copyright © 2023 Opentensor Foundation
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -19,7 +20,7 @@
 import time
 import asyncio
 import traceback
-import bittensor as bt
+import cybertensor as ct
 from math import floor
 from typing import Callable, Any
 from functools import lru_cache, update_wrapper
@@ -110,7 +111,7 @@ def ttl_get_block(self) -> int:
 
     Note: self here is the miner or validator instance
     """
-    return self.subtensor.get_current_block()
+    return self.cwtensor.get_current_block()
 
 
 def async_log(func):
@@ -118,14 +119,14 @@ def async_log(func):
         start_time = time.time()
         task_id = id(asyncio.current_task())
         func_name = func.__name__
-        bt.logging.debug(f"Starting {func_name} on task {task_id} at {start_time}")
+        ct.logging.debug(f"Starting {func_name} on task {task_id} at {start_time}")
 
         # Execute the wrapped function
         result = await func(*args, **kwargs)
 
         end_time = time.time()
         execution_time = end_time - start_time
-        bt.logging.debug(
+        ct.logging.debug(
             f"Completed {func_name} on task {task_id} in {execution_time} seconds"
         )
 

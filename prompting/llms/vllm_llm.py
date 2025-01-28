@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -17,7 +18,7 @@
 import gc
 import time
 import torch
-import bittensor as bt
+import cybertensor as ct
 from typing import List, Dict
 from vllm import LLM, SamplingParams
 from prompting.cleaners.cleaner import CleanerPipeline
@@ -60,12 +61,11 @@ def load_vllm_pipeline(model_id: str, device: str, gpus: int, max_allowed_memory
         llm.llm_engine.tokenizer.eos_token_id = 128009
         return llm
     except Exception as e:
-        bt.logging.error(
+        ct.logging.error(
             f"Error loading the VLLM pipeline within {max_allowed_memory_in_gb}GB: {e}"
         )
         raise e
         
-
 
 class vLLMPipeline(BasePipeline):
     def __init__(self, model_id: str, llm_max_allowed_memory_in_gb: int, device: str = None, gpus: int = 1, mock: bool = False):
@@ -154,7 +154,7 @@ class vLLM_LLM(BaseLLM):
         composed_prompt = self._make_prompt(messages)
         response = self.llm_pipeline(composed_prompt, **self.model_kwargs)
 
-        bt.logging.info(
+        ct.logging.info(
             f"{self.__class__.__name__} generated the following output:\n{response}"
         )
 

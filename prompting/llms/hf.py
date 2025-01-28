@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -17,7 +18,7 @@
 
 import time
 from typing import List, Dict
-import bittensor as bt
+import cybertensor as ct
 
 from transformers import Pipeline, pipeline, AutoTokenizer, TextIteratorStreamer
 from prompting.mock import MockPipeline
@@ -60,14 +61,14 @@ def load_hf_pipeline(
         return MockPipeline(model_id)
 
     if not device.startswith("cuda"):
-        bt.logging.warning("Only crazy people run this on CPU. It is not recommended.")
+        ct.logging.warning("Only crazy people run this on CPU. It is not recommended.")
 
     try:
         tokenizer = AutoTokenizer.from_pretrained(
             model_id
         )  # model_id is usually the name of the tokenizer.
     except Exception as e:
-        bt.logging.error(f"Failed to load tokenizer from model_id: {model_id}.")
+        ct.logging.error(f"Failed to load tokenizer from model_id: {model_id}.")
         raise e
 
     streamer = CustomTextIteratorStreamer(tokenizer=tokenizer)
@@ -194,7 +195,7 @@ class HuggingFaceLLM(BaseLLM):
         messages = self.messages + [{"content": message, "role": role}]
         prompt = self._make_prompt(messages)
 
-        bt.logging.debug("Starting LLM streaming process...")
+        ct.logging.debug("Starting LLM streaming process...")
         streamer = CustomTextIteratorStreamer(tokenizer=self.llm_pipeline.tokenizer)
         _ = self.llm_pipeline(prompt, streamer=streamer, **self.model_kwargs)
 
@@ -217,7 +218,7 @@ class HuggingFaceLLM(BaseLLM):
 
         response = response.replace(composed_prompt, "").strip()
 
-        bt.logging.info(
+        ct.logging.info(
             f"{self.__class__.__name__} generated the following output:\n{response}"
         )
         return response

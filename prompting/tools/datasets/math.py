@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
 # Copyright © 2023 Opentensor Foundation
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -20,7 +21,7 @@ import time
 import random
 import itertools
 import mathgenerator
-import bittensor as bt
+import cybertensor as ct
 from sympy.parsing.latex import parse_latex
 from typing import Dict, Union, List, Tuple
 
@@ -56,7 +57,7 @@ class MathDataset(Dataset):
         Returns:
             Dict: _description_
         """
-        bt.logging.info(f"Getting math problem {name!r}")
+        ct.logging.info(f"Getting math problem {name!r}")
         max_tries = 10
         for _ in range(max_tries):
             info = mathgenerator.generate_context(name, **kwargs)

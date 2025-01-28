@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -18,7 +19,7 @@ import typing
 from functools import partial
 from starlette.types import Send
 
-# Bittensor Miner Template:
+# Cybertensor Miner Template:
 from prompting.protocol import StreamPromptingSynapse
 
 # import base miner class which takes care of most of the boilerplate

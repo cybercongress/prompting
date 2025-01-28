@@ -1,9 +1,9 @@
 import pytest
-import bittensor as bt
+import cybertensor as ct
 import asyncio
 
 from typing import List, AsyncGenerator
-from prompting.mock import MockDendrite, MockMetagraph, MockSubtensor
+from prompting.mock import MockDendrite, MockMetagraph, MockCwtensor
 from prompting.protocol import StreamPromptingSynapse
 
 
@@ -42,10 +42,10 @@ async def handle_response(responses) -> List[StreamPromptingSynapse]:
 def test_mock_streaming(timeout: float):
     netuid = 1
 
-    mock_wallet = bt.MockWallet()
+    mock_wallet = ct.MockWallet()
     mock_dendrite = MockDendrite(wallet=mock_wallet)
-    mock_subtensor = MockSubtensor(netuid=netuid, wallet=mock_wallet)
-    mock_metagraph = MockMetagraph(netuid=netuid, subtensor=mock_subtensor)
+    mock_cwtensor = MockCwtensor(netuid=netuid, wallet=mock_wallet)
+    mock_metagraph = MockMetagraph(netuid=netuid, cwtensor=mock_cwtensor)
 
     streaming = True
     messages = [

@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 from prompting.rewards import BaseRewardModel, BatchRewardOutput, RewardModelTypeEnum
-import bittensor as bt
+import cybertensor as ct
 
 
 class DateRewardModel(BaseRewardModel):

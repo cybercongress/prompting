@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Union
-import bittensor as bt
+import cybertensor as ct
 import re
 from typing import Union
 
@@ -20,7 +20,7 @@ class RemoveQuotes(BaseCleaner):
         pass
 
     def apply(self, generation: str) -> str:
-        bt.logging.debug("Pruning unfinished sentence.")
+        ct.logging.debug("Pruning unfinished sentence.")
         return generation.strip("\"'")
 
 

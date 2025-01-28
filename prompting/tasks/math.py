@@ -1,5 +1,5 @@
 import sys
-import bittensor as bt
+import cybertensor as ct
 from dataclasses import dataclass
 from prompting.tasks import Task
 from .challenge_templates import MathChallengeTemplate

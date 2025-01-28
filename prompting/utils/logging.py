@@ -2,7 +2,7 @@ import json
 import os
 import copy
 import wandb
-import bittensor as bt
+import cybertensor as ct
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import List
@@ -27,7 +27,7 @@ class Log:
 
 
 def export_logs(logs: List[Log]):
-    bt.logging.info("📝 Exporting logs...")
+    ct.logging.info("📝 Exporting logs...")
 
     # Create logs folder if it doesn't exist
     if not os.path.exists("logs"):
@@ -62,7 +62,7 @@ def should_reinit_wandb(self):
 def init_wandb(self, reinit=False):
     """Starts a new wandb run."""
     tags = [
-        self.wallet.hotkey.ss58_address,
+        self.wallet.hotkey.address,
         prompting.__version__,
         str(prompting.__spec_version__),
         f"netuid_{self.metagraph.netuid}",
@@ -92,7 +92,7 @@ def init_wandb(self, reinit=False):
         tags=tags,
         notes=self.config.wandb.notes,
     )
-    bt.logging.success(
+    ct.logging.success(
         prefix="Started a new wandb run",
         sufix=f"<blue> {self.wandb.name} </blue>",
     )

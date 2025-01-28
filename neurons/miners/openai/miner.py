@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -15,7 +16,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 import time
-import bittensor as bt
+import cybertensor as ct
 from prompting.miners import OpenAIMiner
 
 # This is the main function, which runs the miner.
@@ -26,5 +27,5 @@ if __name__ == "__main__":
             time.sleep(5)
 
             if miner.should_exit:
-                bt.logging.warning("Ending miner...")
+                ct.logging.warning("Ending miner...")
                 break

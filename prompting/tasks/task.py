@@ -1,5 +1,5 @@
 import time
-import bittensor as bt
+import cybertensor as ct
 from abc import ABC
 from dataclasses import dataclass, asdict
 from enum import Enum
@@ -17,6 +17,8 @@ It does not mention this information about itself unless the information is dire
 
 def make_system_prompt():
     return CHATTENSOR_SYSTEM_PROMPT.format(date=time.strftime("%B %d, %Y"))
+
+
 class TaskEvaluationType(Enum):
     REWARD_STACK = "reward"
     FILTER_STACK = "filter"
@@ -94,7 +96,7 @@ class Task(ABC):
         if not self.static_reference:
             if not self.clean_reference:
                 clean = False
-            bt.logging.info("🤖 Generating reference...")
+            ct.logging.info("🤖 Generating reference...")
             self.reference = self.generate(
                 system=make_system_prompt(),
                 prompt=self.reference_prompt,
@@ -109,7 +111,7 @@ class Task(ABC):
         """Generates a query to be used for generating the challenge"""
         t0 = time.time()
         if not self.static_query:
-            bt.logging.info("🤖 Generating query...")
+            ct.logging.info("🤖 Generating query...")
             self.query = self.generate(
                 system=self.query_system_prompt, #Could possibly add the chattensor system prompt to query but I don't think it adds anything
                 prompt=self.query_prompt,

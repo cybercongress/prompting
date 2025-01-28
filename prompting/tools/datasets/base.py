@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
 # Copyright © 2023 Opentensor Foundation
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -21,7 +22,7 @@ import random
 import functools
 from abc import ABC, abstractmethod
 from typing import Dict
-import bittensor as bt
+import cybertensor as ct
 
 from ..selector import Selector
 from prompting.shared.context import Context
@@ -66,7 +67,7 @@ class Dataset(ABC):
             if info:
                 break
 
-            bt.logging.debug(
+            ct.logging.debug(
                 f"Could not find any samples which meet {self.__class__.__name__} requirements after {tries} tries. Retrying... ({self.max_tries - tries} tries remaining.)"
             )
 

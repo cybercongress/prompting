@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -17,13 +18,13 @@
 
 import time
 import os
-import bittensor as bt
+import cybertensor as ct
 import argparse
 from starlette.types import Send
 from functools import partial
 from typing import Dict, Awaitable
 
-# Bittensor Miner Template:
+# Cybertensor Miner Template:
 from prompting.base.prompting_miner import BaseStreamPromptingMiner
 from prompting.protocol import StreamPromptingSynapse
 
@@ -54,7 +55,7 @@ class OpenAIMiner(BaseStreamPromptingMiner, OpenAIUtils):
     def __init__(self, config=None):
         super().__init__(config=config)
 
-        bt.logging.info(f"Initializing with model {self.config.neuron.model_id}...")
+        ct.logging.info(f"Initializing with model {self.config.neuron.model_id}...")
 
         if self.config.wandb.on:
             self.identity_tags = ("openai_miner",) + (self.config.neuron.model_id,)
@@ -96,14 +97,14 @@ class OpenAIMiner(BaseStreamPromptingMiner, OpenAIUtils):
                     buffer.append(token)
 
                     if time.time() - init_time > timeout_threshold:
-                        bt.logging.debug(f"⏰ Timeout reached, stopping streaming")
+                        ct.logging.debug(f"⏰ Timeout reached, stopping streaming")
                         timeout_reached = True
                         break
 
                     if len(buffer) == self.config.neuron.streaming_batch_size:
                         joined_buffer = "".join(buffer)
                         temp_completion += joined_buffer
-                        bt.logging.debug(f"Streamed tokens: {joined_buffer}")
+                        ct.logging.debug(f"Streamed tokens: {joined_buffer}")
 
                         await send(
                             {
@@ -127,7 +128,7 @@ class OpenAIMiner(BaseStreamPromptingMiner, OpenAIUtils):
                     )
 
             except Exception as e:
-                bt.logging.error(f"Error in forward: {e}")
+                ct.logging.error(f"Error in forward: {e}")
                 if self.config.neuron.stop_on_forward_exception:
                     self.should_exit = True
 
@@ -141,7 +142,7 @@ class OpenAIMiner(BaseStreamPromptingMiner, OpenAIUtils):
                         system_prompt=self.system_prompt,
                     )
 
-        bt.logging.debug(f"📧 Message received, forwarding synapse: {synapse}")
+        ct.logging.debug(f"📧 Message received, forwarding synapse: {synapse}")
 
         prompt = ChatPromptTemplate.from_messages(
             [("system", self.system_prompt), ("user", "{input}")]

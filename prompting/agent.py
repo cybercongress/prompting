@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -16,7 +17,7 @@
 # DEALINGS IN THE SOFTWARE.
 import textwrap
 import time
-import bittensor as bt
+import cybertensor as ct
 from dataclasses import asdict
 from prompting.tasks import Task
 from prompting.llms import HuggingFaceLLM, vLLM_LLM
@@ -76,7 +77,7 @@ class HumanAgent(vLLM_LLM):
         )
 
         if begin_conversation:
-            bt.logging.info("🤖 Generating challenge query...")
+            ct.logging.info("🤖 Generating challenge query...")
             # initiates the conversation with the miner
             self.challenge = self.create_challenge()
 
@@ -96,7 +97,7 @@ class HumanAgent(vLLM_LLM):
         elif self.task.challenge_type == 'query':
             self.challenge = self.task.query
         else:
-            bt.logging.error(f"Task {self.task.name} has challenge type of: {self.task.challenge_type} which is not supported.")
+            ct.logging.error(f"Task {self.task.name} has challenge type of: {self.task.challenge_type} which is not supported.")
         self.challenge = self.task.format_challenge(self.challenge)
         self.challenge_time = time.time() - t0
 
@@ -130,11 +131,11 @@ class HumanAgent(vLLM_LLM):
             self.task.complete = True
             self.messages.append({"content": top_response, "role": "user"})
 
-            bt.logging.info("Agent finished its goal")
+            ct.logging.info("Agent finished its goal")
             return
 
         if continue_conversation:
-            bt.logging.info(
+            ct.logging.info(
                 "↪ Agent did not finish its goal, continuing conversation..."
             )
             self.continue_conversation(miner_response=top_response)

@@ -1,5 +1,5 @@
-# Hugging Face Bittensor Miner
-This repository contains a Bittensor Miner integrated with 🤗 Hugging Face pipelines. The miner connects to the Bittensor network, registers its wallet, and serves a hugging face model to the network.
+# Hugging Face Cybertensor Miner
+This repository contains a Cybertensor Miner integrated with 🤗 Hugging Face pipelines. The miner connects to the Cybertensor network, registers its wallet, and serves a hugging face model to the network.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ git clone https://github.com/opentensor/prompting.git
 2. Install the required packages for the [repository requirements](../../../requirements.txt) with `pip install -r requirements.txt`
 
 
-For more configuration options related to the wallet, axon, subtensor, logging, and metagraph, please refer to the Bittensor documentation.
+For more configuration options related to the wallet, axon, cwtensor, logging, and metagraph, please refer to the Cybertensor documentation.
 
 ## Example Usage
 
@@ -29,7 +29,7 @@ Here are some model examples that could be leveraged by the HuggingFace Miner, a
 > \* Big models such as mixtral are very costly to run and optimize, so always bear in mind the trade-offs between model speed, model quality and infra cost.
 
 
-To run the Hugging Face Bittensor Miner with default settings, use the following command:
+To run the Hugging Face Cybertensor Miner with default settings, use the following command:
 ```bash
 python3 neurons/miners/huggingface/miner.py \
     --wallet.name <<your-wallet-name>> \

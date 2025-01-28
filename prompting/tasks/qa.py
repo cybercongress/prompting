@@ -1,4 +1,4 @@
-import bittensor as bt
+import cybertensor as ct
 from dataclasses import dataclass
 from prompting.tasks import Task
 
@@ -86,7 +86,7 @@ class QuestionAnsweringTask(Task):
         self.query_system_prompt = QUERY_SYSTEM_PROMPT
         if history:
             self.query_prompt = FOLLOWUP_PROMPT_TEMPLATE.format(context=context.content, history=history)
-            bt.logging.warning(f'Using history!!\n{history=}\n\n{context=}\n\n{self.query_prompt=}')
+            ct.logging.warning(f'Using history!!\n{history=}\n\n{context=}\n\n{self.query_prompt=}')
         else:
             self.query_prompt = QUERY_PROMPT_TEMPLATE.format(context=context.content)            
             

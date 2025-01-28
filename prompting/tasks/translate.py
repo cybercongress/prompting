@@ -1,5 +1,5 @@
 import tqdm
-import bittensor as bt
+import cybertensor as ct
 import argostranslate.package
 import argostranslate.translate
 import random
@@ -33,18 +33,18 @@ class TranslationPipeline:
             if pkg.from_code in SUPPORTED_LANGUAGES and pkg.to_code in SUPPORTED_LANGUAGES
         ]
 
-        bt.logging.info(f"Supported language pairs: {supported_language_pairs}")
+        ct.logging.info(f"Supported language pairs: {supported_language_pairs}")
 
         # Check for installed packages
         pbar = tqdm.tqdm(supported_language_pairs, desc="Checking installed packages")
         for package in pbar:
             if not is_package_installed(package.from_code, package.to_code, installed_packages):
-                bt.logging.info(f"Installing package from {package.from_code} to {package.to_code}")
+                ct.logging.info(f"Installing package from {package.from_code} to {package.to_code}")
                 package_path = str(package.download())
                 argostranslate.package.install_from_path(package_path)
-                bt.logging.success(f'Package successfully installed at {package_path}')
+                ct.logging.success(f'Package successfully installed at {package_path}')
             else:
-                bt.logging.info(f"Package from {package.from_code} to {package.to_code} is already installed, skipping...")
+                ct.logging.info(f"Package from {package.from_code} to {package.to_code} is already installed, skipping...")
 
         return supported_language_pairs
         

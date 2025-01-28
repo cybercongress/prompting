@@ -1,5 +1,5 @@
 import random
-import bittensor as bt
+import cybertensor as ct
 from dataclasses import dataclass
 from prompting.tasks import Task
 import difflib
@@ -48,7 +48,7 @@ def corrupt(
             ],
             n,
         )
-        bt.logging.info(
+        ct.logging.info(
             f"Removing the following {len(indices)} chunks: {[chunks[i] for i in indices]} at indices {indices}"
         )
 
@@ -68,7 +68,7 @@ def corrupt(
             2,
         )
 
-        bt.logging.info(
+        ct.logging.info(
             f"Swapping chunk {chunks[indices[0]]!r} at index {indices[0]} with chunk {chunks[indices[1]]!r} at index {indices[1]}"
         )
 

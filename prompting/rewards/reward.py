@@ -1,6 +1,6 @@
 import torch
 import time
-import bittensor as bt
+import cybertensor as ct
 from typing import List
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -135,10 +135,14 @@ class BatchRewardOutput:
                 f"rewards.shape {self.rewards.shape} != timings.shape {self.timings.shape}"
             )
 
-        self.rewards_normalized = (self.rewards - self.rewards.min()) / (
-            self.rewards.max() - self.rewards.min() + 1e-6
-        )
-
+        try:
+            self.rewards_normalized = (self.rewards - self.rewards.min()) / (
+                self.rewards.max() - self.rewards.min() + 1e-6
+            )
+        except RuntimeError as e:
+            # TODO added during debugging, remove later after testing
+            print(f"An error occurred at rewards_normalized: {e}")
+            self.rewards_normalized = 0.0
 
 class BaseRewardModel(ABC):
     @property

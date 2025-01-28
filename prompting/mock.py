@@ -2,7 +2,7 @@ import time
 import torch
 import asyncio
 import random
-import bittensor as bt
+import cybertensor as ct
 from prompting.protocol import StreamPromptingSynapse, PromptingSynapse
 
 from functools import partial
@@ -75,10 +75,10 @@ class MockPipeline:
         pass
 
 
-class MockSubtensor(bt.MockSubtensor):
+class MockCwtensor(ct.MockCwtensor):
     def __init__(self, netuid, n=16, wallet=None):
         super().__init__()
-        # reset the underlying subtensor state
+        # reset the underlying cwtensor state
         self.chain_state = None
         self.setup()
 
@@ -89,8 +89,8 @@ class MockSubtensor(bt.MockSubtensor):
         if wallet is not None:
             self.force_register_neuron(
                 netuid=netuid,
-                hotkey=wallet.hotkey.ss58_address,
-                coldkey=wallet.coldkey.ss58_address,
+                hotkey=wallet.hotkey.address,
+                coldkey=wallet.coldkey.address,
                 balance=100000,
                 stake=100000,
             )
@@ -106,15 +106,15 @@ class MockSubtensor(bt.MockSubtensor):
             )
 
 
-class MockMetagraph(bt.metagraph):
+class MockMetagraph(ct.metagraph):
     DEFAULT_IP = "127.0.0.0"
     DEFAULT_PORT = 8091
 
-    def __init__(self, subtensor, netuid=1, network="mock"):
+    def __init__(self, cwtensor, netuid=1, network="mock"):
         super().__init__(netuid=netuid, network=network, sync=False)
 
-        self.subtensor = subtensor
-        self.sync(subtensor=self.subtensor)
+        self.cwtensor = cwtensor
+        self.sync(cwtensor=self.cwtensor)
 
         for axon in self.axons:
             axon.ip = self.DEFAULT_IP
@@ -178,7 +178,7 @@ class MockStreamMiner:
                     yield buffer, continue_streaming
 
             except Exception as e:
-                bt.logging.error(f"Error in forward: {e}")
+                ct.logging.error(f"Error in forward: {e}")
 
         prompt = synapse.messages[-1]
         token_streamer = partial(_forward, self, prompt, start_time)
@@ -186,9 +186,9 @@ class MockStreamMiner:
         return token_streamer
 
 
-class MockDendrite(bt.dendrite):
+class MockDendrite(ct.dendrite):
     """
-    Replaces a real bittensor network request with a mock request that just returns some static
+    Replaces a real cybertensor network request with a mock request that just returns some static
     completion for all axons that are passed and adds some random delay.
     """
 
@@ -201,10 +201,10 @@ class MockDendrite(bt.dendrite):
     async def call(
         self,
         i: int,
-        synapse: bt.Synapse = bt.Synapse(),
+        synapse: ct.Synapse = ct.Synapse(),
         timeout: float = 12.0,
         deserialize: bool = True,
-    ) -> bt.Synapse:
+    ) -> ct.Synapse:
         """Simulated call method to fill synapses with mock data."""
 
         process_time = random.random() * (self.MAX_TIME - self.MIN_TIME) + self.MIN_TIME
@@ -236,7 +236,7 @@ class MockDendrite(bt.dendrite):
         """
         Yields:
             object: Each yielded object contains a chunk of the arbitrary response data from the Axon.
-            bittensor.Synapse: After the AsyncGenerator has been exhausted, yields the final filled Synapse.
+            cybertensor.Synapse: After the AsyncGenerator has been exhausted, yields the final filled Synapse.
 
             Communications delay is simulated in the MockStreamMiner.forward method. Therefore, we can
             compute the process_time directly here.
@@ -281,8 +281,8 @@ class MockDendrite(bt.dendrite):
 
     async def forward(
         self,
-        axons: List[bt.axon],
-        synapse: bt.Synapse = bt.Synapse(),
+        axons: List[ct.axon],
+        synapse: ct.Synapse = ct.Synapse(),
         timeout: float = 12,
         deserialize: bool = True,
         run_async: bool = True,
@@ -301,7 +301,7 @@ class MockDendrite(bt.dendrite):
             """Queries all axons for responses."""
 
             async def single_axon_response(
-                i: int, target_axon: Union[bt.AxonInfo, bt.axon]
+                i: int, target_axon: Union[ct.AxonInfo, ct.axon]
             ):
                 """Queries a single axon for a response."""
 
@@ -309,7 +309,7 @@ class MockDendrite(bt.dendrite):
 
                 target_axon = (
                     target_axon.info()
-                    if isinstance(target_axon, bt.axon)
+                    if isinstance(target_axon, ct.axon)
                     else target_axon
                 )
 
@@ -355,4 +355,4 @@ class MockDendrite(bt.dendrite):
         Returns:
             str: The string representation of the Dendrite object in the format "dendrite(<user_wallet_address>)".
         """
-        return "MockDendrite({})".format(self.keypair.ss58_address)
+        return "MockDendrite({})".format(self.keypair.address)

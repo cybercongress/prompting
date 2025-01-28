@@ -1,11 +1,11 @@
 import torch
-import bittensor as bt
+import cybertensor as ct
 from typing import List
 
 
 class DendriteResponseEvent:
     def __init__(
-        self, responses: List[bt.Synapse], uids: torch.LongTensor, timeout: float
+        self, responses: List[ct.Synapse], uids: torch.LongTensor, timeout: float
     ):
         self.uids = uids
         self.completions = []

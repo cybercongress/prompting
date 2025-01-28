@@ -1,7 +1,7 @@
 import argparse
 import asyncio
 
-import bittensor as bt
+import cybertensor as ct
 import time
 
 from typing import List, Awaitable
@@ -33,7 +33,7 @@ async def handle_response(
         chunk_start_time = time.time()
         async for chunk in resp:
             chunk_time = round(time.time() - chunk_start_time, 3)
-            bt.logging.info(
+            ct.logging.info(
                 f"UID: {uids[uid_num]}. chunk {ii}({chunk_time}s) for resp: {chunk} "
             )
             ii += 1
@@ -41,7 +41,7 @@ async def handle_response(
             chunk_times.append(chunk_time)
             chunk_start_time = time.time()
 
-        bt.logging.success(
+        ct.logging.success(
             f"UID {uids[uid_num]} took {(time.time() - start_time):.3f} seconds\n"
         )
 
@@ -65,15 +65,15 @@ async def query_stream_miner(
     )
 
     # create a wallet instance with provided wallet name and hotkey
-    wallet = bt.wallet(name=wallet_name, hotkey=hotkey)
+    wallet = ct.Wallet(name=wallet_name, hotkey=hotkey)
 
     # instantiate the metagraph with provided network and netuid
-    metagraph = bt.metagraph(netuid=netuid, network=network, sync=True, lite=False)
+    metagraph = ct.metagraph(netuid=netuid, network=network, sync=True, lite=False)
 
     # Create a Dendrite instance to handle client-side communication.
-    dendrite = bt.dendrite(wallet=wallet)
+    dendrite = ct.dendrite(wallet=wallet)
 
-    bt.logging.info(f"Synapse: {syn}")
+    ct.logging.info(f"Synapse: {syn}")
 
     async def main():
         try:
@@ -90,7 +90,7 @@ async def query_stream_miner(
             return await handle_response(uids, responses)
 
         except Exception as e:
-            bt.logging.error(f"Exception during query to uids: {uids}: {e}")
+            ct.logging.error(f"Exception during query to uids: {uids}: {e}")
             return None
 
     await main()
@@ -98,7 +98,7 @@ async def query_stream_miner(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Query a Bittensor synapse with given parameters."
+        description="Query a Cybertensor synapse with given parameters."
     )
 
     parser.add_argument(

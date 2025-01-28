@@ -1,5 +1,6 @@
 # The MIT License (MIT)
 # Copyright © 2024 Yuma Rao
+# Copyright © 2024 cyber~Congress
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -16,7 +17,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 import pydantic
-import bittensor as bt
+import cybertensor as ct
 
 from typing import List, AsyncIterator
 from starlette.responses import StreamingResponse
@@ -24,7 +25,7 @@ from starlette.responses import StreamingResponse
 import pdb
 
 
-class PromptingSynapse(bt.Synapse):
+class PromptingSynapse(ct.Synapse):
     """
     The PromptingSynapse subclass of the Synapse class encapsulates the functionalities related to prompting scenarios.
 
@@ -128,10 +129,10 @@ class PromptingSynapse(bt.Synapse):
     )
 
 
-class StreamPromptingSynapse(bt.StreamingSynapse):
+class StreamPromptingSynapse(ct.StreamingSynapse):
     """
     StreamPromptingSynapse is a specialized implementation of the `StreamingSynapse` tailored for prompting functionalities within
-    the Bittensor network. This class is intended to interact with a streaming response that contains a sequence of tokens,
+    the Cybertensor network. This class is intended to interact with a streaming response that contains a sequence of tokens,
     which represent prompts or messages in a certain scenario.
 
     As a developer, when using or extending the `StreamPromptingSynapse` class, you should be primarily focused on the structure
@@ -196,7 +197,7 @@ class StreamPromptingSynapse(bt.StreamingSynapse):
     ) -> AsyncIterator[str]:
         """
         `process_streaming_response` is an asynchronous method designed to process the incoming streaming response from the
-        Bittensor network. It's the heart of the StreamPromptingSynapse class, ensuring that streaming tokens, which represent
+        Cybertensor network. It's the heart of the StreamPromptingSynapse class, ensuring that streaming tokens, which represent
         prompts or messages, are decoded and appropriately managed.
 
         As the streaming response is consumed, the tokens are decoded from their 'utf-8' encoded format, split based on
@@ -234,7 +235,7 @@ class StreamPromptingSynapse(bt.StreamingSynapse):
 
         Beyond just extracting the JSON data, the method also processes and structures the data for easier consumption
         and understanding. For instance, it extracts specific headers related to dendrite and axon, offering insights
-        about the Bittensor network's internal processes. The method ultimately returns a dictionary with a structured
+        about the Cybertensor network's internal processes. The method ultimately returns a dictionary with a structured
         view of the extracted data.
 
         Args:
